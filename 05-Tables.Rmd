@@ -1,0 +1,15 @@
+\listoftables
+\newpage
+
+```{r Table1, results='asis', echo=FALSE, cache=FALSE}
+kable(head(iris), caption = "A glimpse of the famous *Iris* dataset.")
+```
+
+\newpage
+
+```{r Table2, results='asis', echo=FALSE, cache=FALSE}
+kable(mtcars[10:16, ], caption = "Now a subset of mtcars dataset.")
+```
+
+\clearpage
+

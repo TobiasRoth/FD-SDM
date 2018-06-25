@@ -1,0 +1,25 @@
+\listoffigures
+\newpage
+
+```{r Fig1, echo=FALSE, fig.cap="Just my first figure with a very fantastic caption.", cache=FALSE}
+x <- rnorm(100)
+y <- jitter(x, 1000)
+plot(x, y)
+```
+
+\newpage
+\blandscape
+
+```{r Fig2, echo=FALSE, fig.cap="Second figure in landscape format.", cache=FALSE}
+a <- sort(rnorm(100))
+b <- c(rep("Group Small", 35), rep("Group Big", 65))
+boxplot(a ~ b)
+```
+
+\elandscape
+
+\clearpage
+```{r sessioninfo, echo = FALSE, eval = TRUE}
+sessionInfo()
+```
+

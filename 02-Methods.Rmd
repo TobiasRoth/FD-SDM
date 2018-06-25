@@ -1,0 +1,29 @@
+# METHODS
+
+
+## Study Area
+
+We worked in a **beautiful** place with lots of trees, like *Quercus suber* and *Laurus nobilis*.
+
+
+## Data collection and analysis
+
+```{r read_data, eval = FALSE, echo = FALSE}
+dataset <- read.csv("mydata.csv")
+```
+
+We applied a linear model where
+
+$$
+y_{i} = \alpha + \beta*x_{i} 
+$$
+
+```{r model, echo = FALSE, eval = FALSE}
+model <- lm(y ~ x)
+```
+
+We used the statistical language `R` `r citep(citation())` for all our analyses. These were implemented in dynamic rmarkdown documents using `knitr` `r citep(citation("knitr"))` and `rmarkdown` `r citep(citation("rmarkdown"))` packages. All the multilevel models were fitted with `lme4` `r citep(citation("lme4"))`. 
+
+
+
+

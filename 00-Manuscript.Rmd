@@ -1,0 +1,108 @@
+---
+title: 'Temperature niche differentiation of plants predicts multi-species phylogenetic and functional trait space but not taxonomic composition in human-dominated landscapes'
+
+author:  
+
+- name: Tobias Roth
+  affilnum: '1,2'
+  email: t.roth@unibas.ch
+  
+- name: Eric Allan 
+  affilnum: 3
+  
+- name: Peter B. Pearman 
+  affilnum: '4,5' 
+ 
+- name: Valentin Amrhein 
+  affilnum: 1  
+  
+affiliation:
+
+- affilnum: 1
+  affil: University of Basel, Zoological Institute, Vesalgasse 1, 4051 Basel, Switzerland
+  
+- affilnum: 2
+  affil: Hintermann & Weber AG, Austrasse 2a, 4153 Reinach, Switzerland
+  
+- affilnum: 3
+  affil: University of Bern Institute of Plant Sciences, 3013 Bern, Switzerland
+  
+- affilnum: 4
+  affil: Department of Plant Biology and Ecology, Faculty of Sciences and Technology, University of the Basque Country, UPV/EHU, Apdo. 644, 48940 Leioa, Spain
+  
+- affilnum: 5
+  affil: IKERBASQUE, Basque Foundation for Science, 48011 Bilbao, Spain
+  
+output:
+
+  pdf_document:
+    fig_caption: yes
+    fig_width: 7
+    fig_height: 7
+    keep_tex: no
+    number_sections: no
+    template: Settings/manuscript.latex
+    includes:
+      in_header: Settings/header.tex
+
+  html_document: null
+  
+  word_document: null
+
+documentclass: article
+classoption: a4paper
+capsize: normalsize
+fontsize: 11pt
+geometry: margin=1in
+linenumbers: yes
+spacing: doublespacing
+footerdate: yes
+abstract: no
+bibliography: 
+  - 08-References.bib
+csl: Settings/ecology.csl
+---
+
+```{r setup, include=FALSE, cache=FALSE, message = FALSE}
+library("knitr")
+opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, include = TRUE)
+opts_chunk$set(tidy = TRUE, comment = NA, highlight = TRUE)
+opts_chunk$set(cache = 2, cache.path = "Cache/")
+opts_chunk$set(fig.path = "Figures/")
+```
+
+
+```{r knitcitations, eval=FALSE}
+library(knitcitations)
+cleanbib()   
+cite_options(citation_format = "pandoc")
+write.bibtex(file="08-References.bib")
+```
+
+
+\singlespace
+
+\vspace{2mm}\hrule
+
+Null models play an important role in community assembly. SDM could be used as a dynamic way to construct Null models. We aim to infer community assembly along the elevational gradient in human dominated landscape. 
+
+\vspace{3mm}\hrule
+
+*Keywords*: functional ecology, species distribution models
+
+\doublespace
+\clearpage
+\bleft
+
+```{r child = "01-Introduction.Rmd"}
+```
+```{r child = "02-Methods.Rmd"}
+```
+```{r child = "03-Results.Rmd"}
+```
+```{r child = "04-Discussion.Rmd"}
+```
+```{r child = "05-Tables.Rmd"}
+```
+```{r child = "06-Figures.Rmd"}
+```

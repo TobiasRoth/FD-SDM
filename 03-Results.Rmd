@@ -1,0 +1,6 @@
+# RESULTS
+
+Trees in forest A grew taller than those in forest B (mean height: `r mean(25, 31, 28)` versus `r mean(13, 19, 16)` m). And many more cool results that get updated dynamically.
+
+
+

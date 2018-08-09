@@ -6,18 +6,21 @@ rm(list=ls(all=TRUE))
 # Libraries
 library(tidyverse)
 
-# Connection to data base
+# Connection to data base (not available from Github!)
 db <- src_sqlite(path = "~/Documents/Dropbox/DB_BDM.db", create = FALSE)
 
+# Frequency limit for species to be included
+freq.limit <- 20 
+
 #------------------------------------------------------------------------------------------------------
-# Prepare site data
+# Prepare site data for eHOF model (data from 2008 to 2012)
 #------------------------------------------------------------------------------------------------------
-# Z7
+# Landscape scale (Z7)
 sites <- tbl(db, "KD_Z7") %>% 
   left_join(tbl(db, "RAUMDATEN_Z7")) %>% 
   left_join(tbl(db, "STICHPROBE_Z7")) %>% 
   filter(Aufnahmetyp == "Normalaufnahme_Z7") %>% 
-  filter(yearP >= 2012 & yearP <= 2016) %>% 
+  filter(yearP >= 2008 & yearP <= 2012) %>% 
   filter(BDM_Verdichtung == "nein") %>% 
   transmute(aID_KD = aID_KD,
             aID_STAO = aID_STAO,
@@ -29,12 +32,12 @@ sites <- tbl(db, "KD_Z7") %>%
   filter(!is.na(yearPl) & !is.na(yearBi) & !is.na(yearBu))
 sites <- sites[order(sites$aID_STAO), ]
 
-# Z9
+# Local scale (Z9)
 sitesZ9 <- tbl(db, "KD_Z9") %>% 
   left_join(tbl(db, "RAUMDATEN_Z9")) %>% 
   left_join(tbl(db, "STICHPROBE_Z9")) %>% 
   filter(Aufnahmetyp == "Normalaufnahme_Z9") %>% 
-  filter(yearP >= 2012 & yearP <= 2016) %>% 
+  filter(yearP >= 2008 & yearP <= 2012) %>% 
   filter(BDM_Verdichtung == "nein") %>% 
   transmute(aID_KD = aID_KD,
             aID_STAO = aID_STAO,
@@ -45,32 +48,33 @@ sitesZ9 <- tbl(db, "KD_Z9") %>%
 sitesZ9 <- sitesZ9[order(sitesZ9$aID_STAO), ]
 
 #------------------------------------------------------------------------------------------------------
-# Prepare community matrices
+# Prepare community matrices (data from 2008 to 2012)
 #------------------------------------------------------------------------------------------------------
-# Plants Z7
+# Plants local scale
+tt <- tbl(db, "PL") %>% 
+  filter(Z7 == 0) %>% 
+  left_join(tbl(db, "KD_Z9")) %>% 
+  as.tibble() %>% 
+  filter(!is.na(aID_SP)) %>% 
+  transmute(aID_STAO = aID_STAO,
+            aID_SP = aID_SP) 
+tt$aID_STAO <- factor(tt$aID_STAO, levels = sitesZ9$aID_STAO)
+commat_PlZ9 <- table(tt)
+commat_PlZ9 <- commat_PlZ9[order(dimnames(commat_PlZ9)$aID_STAO), ]
+commat_PlZ9 <- commat_PlZ9[, apply(commat_PlZ9, 2, sum) > freq.limit]
+
+# Plants landscape scale
 commat_Pl <- tbl(db, "PL") %>% 
   filter(Z7 == 1) %>% 
   left_join(tbl(db, "KD_Z7")) %>% 
   as.tibble() %>% 
   filter(!is.na(aID_SP)) %>% 
   filter(!is.na(match(aID_KD, sites$aID_KD))) %>% 
+  filter(!is.na(match(aID_SP, as.integer(dimnames(commat_PlZ9)[[2]])))) %>% 
   transmute(aID_STAO = aID_STAO,
             aID_SP = aID_SP) %>% 
   table()
 commat_Pl <- commat_Pl[order(dimnames(commat_Pl)$aID_STAO), ]
-
-# Plants Z9
-tt <- tbl(db, "PL") %>% 
-  filter(Z7 == 0) %>% 
-  left_join(tbl(db, "KD_Z9")) %>% 
-  as.tibble() %>% 
-  filter(!is.na(aID_SP)) %>% 
-  filter(!is.na(match(aID_KD, sitesZ9$aID_KD))) %>% 
-  transmute(aID_STAO = aID_STAO,
-            aID_SP = aID_SP) 
-tt$aID_STAO <- factor(tt$aID_STAO, levels = sitesZ9$aID_STAO)
-commat_PlZ9 <- table(tt)
-commat_PlZ9 <- commat_PlZ9[order(dimnames(commat_PlZ9)$aID_STAO), ]
 
 # Birds
 commat_Bi <- tbl(db, "Bi") %>% 
@@ -82,6 +86,7 @@ commat_Bi <- tbl(db, "Bi") %>%
             aID_SP = aID_SP) %>% 
   table()
 commat_Bi <- commat_Bi[order(dimnames(commat_Bi)$aID_STAO), ]
+commat_Bi <- commat_Bi[, apply(commat_Bi, 2, sum) > freq.limit]
 
 # Butterflies
 commat_Bu <- tbl(db, "TF") %>% 
@@ -93,7 +98,7 @@ commat_Bu <- tbl(db, "TF") %>%
             aID_SP = aID_SP) %>% 
   table()
 commat_Bu <- commat_Bu[order(dimnames(commat_Bu)$aID_STAO), ]
-
+commat_Bu <- commat_Bu[, apply(commat_Bu, 2, sum) > freq.limit]
 
 #------------------------------------------------------------------------------------------------------
 # Hide coorination IDs and save data-objects

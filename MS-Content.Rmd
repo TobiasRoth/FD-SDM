@@ -38,11 +38,16 @@ Discuss.
 
 \listoftables
 \newpage
+\blandscape
 
 ```{r Table1, results='asis', echo=FALSE, cache=FALSE}
-kable(head(iris), caption = "A glimpse of the famous *Iris* dataset.")
+source("R/Table_results_eHOF.R")
 ```
 
+\tiny See https://github.com/TobiasRoth/FD-SDM/blob/master/R/apply_eHOF.R for R-Code that runs the HOF-models.
+
+\tiny See https://github.com/TobiasRoth/FD-SDM/blob/master/R/Table_results_eHOF.R for R-Code to produce the table.
+\elandscape
 \clearpage
 
 
@@ -55,6 +60,7 @@ y <- jitter(x, 1000)
 plot(x, y)
 ```
 
+\tiny See for R-Code to produce the figure.
 
 \clearpage
 

@@ -1,0 +1,63 @@
+# INTRODUCTION
+Das ist ein Test [@Roth_2014].
+
+# METHODS
+
+## Study Area
+We worked in a **beautiful** place with lots of trees, like *Quercus suber* and *Laurus nobilis*.
+
+
+## Data collection and analysis
+```{r read_data, eval = FALSE, echo = FALSE}
+dataset <- read.csv("mydata.csv")
+```
+
+```{r model, echo = FALSE, eval = FALSE}
+model <- lm(y ~ x)
+```
+
+We used the statistical language `R`. 
+
+
+
+# RESULTS
+Trees in forest A grew taller than those in forest B (mean height: `r mean(25, 31, 28)` versus `r mean(13, 19, 16)` m). And many more cool results that get updated dynamically.
+
+
+# DISCUSSION
+Discuss.
+
+
+# ACKNOWLEDGEMENTS
+
+# REFERENCES
+<div id = "refs"></div>
+\eleft
+\clearpage
+
+
+\listoftables
+\newpage
+
+```{r Table1, results='asis', echo=FALSE, cache=FALSE}
+kable(head(iris), caption = "A glimpse of the famous *Iris* dataset.")
+```
+
+\clearpage
+
+
+\listoffigures
+\newpage
+
+```{r Fig1, echo=FALSE, fig.cap="Just my first figure with a very fantastic caption.", cache=FALSE}
+x <- rnorm(100)
+y <- jitter(x, 1000)
+plot(x, y)
+```
+
+
+\clearpage
+
+```{r sessioninfo, echo = FALSE, eval = TRUE}
+sessionInfo()
+```
